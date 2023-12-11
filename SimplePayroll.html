@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Payroll</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-image: url('https://wallpaperaccess.com/full/729351.png');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .container {
+            transition: all 1.5s ease;
+            background-color: transparent;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin-top: 50px;
+            }
+        }
+
+        form label {
+            font-family: Arial, sans-serif;
+            font-size: 21px;
+            color: #000000;
+        }
+
+        form input {
+            width: 17%;
+            margin-left: 40px;
+            border-radius: 10px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .form-row {
+            margin-bottom: 15px;
+        }
+
+        form {
+            border: 2px solid #57504d;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(240, 240, 240, 0.8);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form button:hover,
+        form button#InputEmployee:hover,
+        form button#DeleteEmployee:hover {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            border-style: outset;
+        }
+
+        table {
+            width: 100%;
+            border: 2px solid #57504d;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead, th, td {
+            border: 1px dotted;
+            border-collapse: collapse;
+            border-radius: 10px;
+            text-align: center;
+            border-color: #45216a;
+            font-family: Arial, sans-serif;
+            font-size: 19px;
+            color: #57504d;
+        }
+
+        td {
+            background-color: #FEFFFF;
+            border-color: #393433;
+            color: #57504d;
+            font-size: 15px;
+        }
+
+        h1 {
+            position: relative;
+            color: #6f2dc5; /* White text color */
+            text-align: center;
+            font-size: 2rem;
+            padding: 1px; /* Reduced padding */
+            margin: 0;
+            background: linear-gradient(-45deg, #87CEEB, #F8F8FF, #DCD0FF);
+            background-size: 100% 100%;
+            animation: gradientAnimation 8s linear infinite;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 100px; /* Slightly rounded corners */
+            box-shadow: 0 0 20px rgba(118, 147, 214, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+            @keyframes gradientAnimation {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;    
+                }
+            }
+
+            h1:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            }
+            a {
+                        text-align: center;
+                        display: block;
+                        margin-top: 20px;
+                        color: #333;
+                        text-decoration: none;
+                    }
+
+                    a:hover {
+                        color: #45aaf2;
+                    }
+  
+ 
+    </style>
+</head>
+
+<body>
+    <a href="HomePage.html">Go to Home Page</a>
+    <h1>Simple Payroll</h1>
+    <div class="container">
+        <form>
+            <label style="margin-left:220px;" for="name"> Employee Name </label> 
+            <label style="margin-left:155px;" for="days"> Days Worked </label> 
+            <label style="margin-left:190px;" for="rate"> Daily Rate </label> 
+            <label style="margin-left:155px;" for="deduction"> Deduction Amount </label> <br>
+        
+            <input style="margin-left:165px;" id="name" type="text"> 
+            <input id="days" type="number"> 
+            <input id="rate" type="number"> 
+            <input id="deduction" type="number"> <br><br><br><br>
+        </form>
+    </div>
+
+    <div class="container">   
+         <div class="button">
+        <button style="margin-left: 665px;" type="button" id="InputEmployee"> Enter Data</button>
+        <button type="button" id="DeleteEmployee"> Delete Employee</button>
+        <button id="btnclearpayroll">Clear Payroll</button>
+    </div>
+    </div>
+
+    <table id="Employee">
+        <thead style="height:35px">
+            <th style="width:5%"> No. </th>
+            <th style="width:25%"> Name </th>
+            <th style="width:10%"> Days Worked </th>
+            <th style="width:15%"> Daily Rate </th>
+            <th style="width:15%"> Gross Pay </th>
+            <th style="width:15%"> Deduction Amount </th>
+            <th style="width:15%"> Net Pay </th>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <dialog id="dlgConfirmCancel">
+        <form method="dialog">
+            <h4 id="dlgmsg"></h4>
+            <button id="btnConfirm" value="confirm">Confirm</button>
+            <button id="btnCancel" value="cancel">Cancel</button>
+        </form>
+    </dialog>
+
+    <script>
+        document.getElementById("InputEmployee").addEventListener("click", function () {
+            AddEmployee();
+            clearelements();
+        });
+
+        document.getElementById("DeleteEmployee").addEventListener("click", function () {
+            deleteEmployee();
+        });
+
+        
+        document.getElementById("btnclearpayroll").addEventListener("click", () => {
+            document.getElementById("dlgmsg").innerHTML = "Clear the Payroll?";
+            dlgConfirmCancel.showModal();
+        });
+
+       
+        document.getElementById("btnConfirm").addEventListener("click", () => {
+            clearPayroll();
+            dlgConfirmCancel.close("confirm");
+        });
+
+    
+        document.getElementById("btnCancel").addEventListener("click", () => {
+            dlgConfirmCancel.close("cancel");
+        });
+           
+        var index = 0;
+
+        function inserting(name, days, rate, deduction, grosspay, netpay) {
+            var row, cell1, cell2, cell3, cell4, cell5, cell6, cell7;
+
+            table = document.getElementById("Employee");
+            row = table.insertRow();
+            cell1 = row.insertCell(0); cell2 = row.insertCell(1);
+            cell3 = row.insertCell(2); cell4 = row.insertCell(3);
+            cell5 = row.insertCell(4); cell6 = row.insertCell(5); cell7 = row.insertCell(6);
+
+            cell1.innerHTML = ++index;
+            cell2.innerHTML = name;
+            cell3.innerHTML = days; 
+            cell4.innerHTML = rate;
+            cell5.innerHTML = grosspay;
+            cell6.innerHTML = deduction;
+            cell7.innerHTML = netpay;
+        }
+
+        function AddEmployee() {
+            var name, days, rate, deduction, table, grosspay, netpay;
+
+            table = document.getElementById("Employee").value;
+            name = document.getElementById("name").value;
+            days = document.getElementById("days").value * 1;
+            rate = document.getElementById("rate").value * 1;
+            deduction = document.getElementById("deduction").value * 1;
+
+            grosspay = days * rate;
+            netpay = grosspay - deduction;
+
+            if (name.trim() == "" || days == '0' || rate == '0' || deduction == '0') {
+                alert('Opps! Incomplete Data. Please Try Again.');
+            } else {
+                inserting(name, days, rate, deduction, grosspay, netpay);
+            }
+        }        
+
+        function rewrite() {
+            var table = document.getElementById("Employee");
+            var row = table.getElementsByTagName("tr");
+            var index = 1;
+
+            for (var i = 1; i < row.length; i++) {
+                cell = row[i].getElementsByTagName("td");
+                cell[0].innerHTML = index++;
+                
+            }
+        }
+
+        function deleteEmployee() {
+            var line = prompt("Enter Line to be Deleted");
+            document.getElementById("Employee").deleteRow(line);
+            rewrite();
+        }
+
+        function clearelements() {
+                document.getElementById("name").value = '';
+                document.getElementById("days").value = '';
+                document.getElementById("rate").value = '';
+                document.getElementById("deduction").value = '';
+            }
+
+            function clearPayroll() {
+                var table = document.getElementById("Employee");
+                var rowCount = table.rows.length;
+
+                for (var i = rowCount - 1; i > 0; i--) {
+                    table.deleteRow(i);
+                }
+
+                index = 0;
+            }
+    </script>
+</body>
+</html>

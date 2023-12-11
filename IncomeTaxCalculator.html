@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            width: 100%;
+            height: 100vh;
+            background-image: url(https://wallpapercave.com/wp/tmx6W6N.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            animation: fadeIn 2s ease-out; 
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 90%;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(240, 240, 240, 0.8);
+            border: 2px solid black;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 5%;
+            transition: transform 0.3s ease-in-out; 
+        }
+
+        .container:hover {
+            transform: scale(1.05); 
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px; 
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #348bd7;
+            color: white;
+            padding: 12px 24px; 
+            border: none;
+            border-style: outset;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        button:hover {
+            background-color: #54d7d3;
+        }
+
+        .result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 95%; 
+                padding: 15px; 
+            }
+        }
+
+        body {
+            animation: animatedBackground 10s linear infinite;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+        }
+        a {
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #45aaf2;
+        }
+
+        #dlgConfirmCancel,
+        #dlgAreYouSure {
+            display: ;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        #dlgConfirmCancel form,
+        #dlgAreYouSure form {
+            padding: 20px;
+        }
+
+        #dlgConfirmCancel h4,
+        #dlgAreYouSure h4 {
+            margin-bottom: 20px;
+        }
+
+        #dlgConfirmCancel button,
+        #dlgAreYouSure button {
+            background-color: #348bd7;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-style: outset;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        #dlgConfirmCancel button:hover,
+        #dlgAreYouSure button:hover {
+            background-color: #54d7d3;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Income Tax Calculator</h1>
+        <div class="form-group">
+            <label for="income">Annual Income:</label>
+            <input type="number" id="income" placeholder="Enter annual income">
+        </div>
+        <div class="form-group">
+            <label for="taxRate">Tax Rate:</label>
+            <input type="number" id="taxRate" placeholder="Enter tax rate">
+        </div>
+        <button onclick="calculateTax()">Calculate</button>
+        <button id="btnclearvalues">Clear Values</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <dialog id="dlgConfirmCancel">
+        <form method="dialog">
+            <h4 id="dlgmsg"></h4>
+            <button id="btnConfirm" type="button">Confirm</button>
+            <button id="btnCancel" type="button">Cancel</button>
+        </form>
+    </dialog>
+
+    <script>
+         function calculateTax() {
+            var income = document.getElementById('income').value;
+            var taxRate = document.getElementById('taxRate').value;
+            var tax = (income * taxRate) / 100;
+
+            document.getElementById('result').innerHTML = 'Tax to be paid: $' + tax.toFixed(2);
+        }
+
+        function clearForm() {
+            document.getElementById('income').value = '';
+            document.getElementById('taxRate').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        document.getElementById("btnclearvalues").addEventListener("click", () => {
+            document.getElementById("dlgmsg").innerHTML = "Clear the Values?";
+            dlgConfirmCancel.showModal();
+        });
+
+        document.getElementById("btnConfirm").addEventListener("click", () => {
+            clearForm();
+            dlgConfirmCancel.close("confirm");
+        });
+
+        document.getElementById("btnCancel").addEventListener("click", () => {
+            dlgConfirmCancel.close("cancel");
+        });
+   
+    </script>
+
+  
+    <a href="HomePage.html">Go to Home Page</a>
+</body>
+
+</html>

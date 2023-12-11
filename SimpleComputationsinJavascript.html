@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conversion</title>
+  <link rel="Icon" href="https://vectorified.com/images/converter-icon-39.png"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      animation: animatedBackground 10s linear infinite;
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+    }
+
+    @keyframes animatedBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: rgba(240, 240, 240, 0.35);
+      border: 2px solid rgb(69, 63, 152);
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .container:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #333;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    button, .clear-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #45aaf2;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .result {
+      margin-top: 10px;
+      font-weight: bold;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .clear-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .clear-button:hover {
+      background-color: #d32f2f;
+    }
+
+    @media screen and (max-width: 768px) {
+      .container {
+        width: 90%;
+      }
+    }
+    a {
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #45aaf2;
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Conversion</h1>
+    <div>
+      <label for="celsius">Celsius to Fahrenheit:</label>
+      <input type="number" id="celsius" placeholder="Celsius">
+      <button onclick="celsiusToFahrenheit()">Convert</button>
+      <div id="celsiusToFahrenheitResult" class="result"></div>
+
+      <label for="fahrenheit">Fahrenheit to Celsius:</label>
+      <input type="number" id="fahrenheit" placeholder="Fahrenheit">
+      <button onclick="fahrenheitToCelsius()">Convert</button>
+      <div id="fahrenheitToCelsiusResult" class="result"></div>
+
+      <label for="meters">Meters to Feet:</label>
+      <input type="number" id="meters" placeholder="Meters">
+      <button onclick="metersToFeet()">Convert</button>
+      <div id="metersToFeetResult" class="result"></div>
+
+      <label for="feet">Feet to Meters:</label>
+      <input type="number" id="feet" placeholder="Feet">
+      <button onclick="feetToMeters()">Convert</button>
+      <div id="feetToMetersResult" class="result"></div>
+
+  
+     
+      <button id="btnclearvalues" >Clear Values</button>
+
+     
+      <a href="HomePage.html">Go to Home Page</a>
+    </div>
+  </div>
+
+  <dialog id="dlgConfirmCancel">
+    <form method="dialog">
+        <h4 id="dlgmsg"></h4>
+        <button id="btnConfirm" type="button">Confirm</button>
+        <button id="btnCancel" type="button">Cancel</button>
+    </form>
+</dialog>
+
+
+  <script>
+    function celsiusToFahrenheit() {
+      var celsius = parseFloat(document.getElementById('celsius').value);
+      var fahrenheit = (celsius * 9/5) + 32;
+      document.getElementById('celsiusToFahrenheitResult').innerHTML = fahrenheit + " F";
+    }
+
+    function fahrenheitToCelsius() {
+      var fahrenheit = parseFloat(document.getElementById('fahrenheit').value);
+      var celsius = (fahrenheit - 32) * 5/9;
+      document.getElementById('fahrenheitToCelsiusResult').innerHTML = celsius + " C";
+    }
+
+    function metersToFeet() {
+      var meters = parseFloat(document.getElementById('meters').value);
+      var feet = meters * 3.28084;
+      document.getElementById('metersToFeetResult').innerHTML = feet + " ft";
+    }
+
+    function feetToMeters() {
+      var feet = parseFloat(document.getElementById('feet').value);
+      var meters = feet / 3.28084;
+      document.getElementById('feetToMetersResult').innerHTML = meters + " m";
+    }
+
+    function clearForm() {
+      document.getElementById('celsius').value = '';
+      document.getElementById('fahrenheit').value = '';
+      document.getElementById('meters').value = '';
+      document.getElementById('feet').value = '';
+      document.getElementById('celsiusToFahrenheitResult').innerHTML = '';
+      document.getElementById('fahrenheitToCelsiusResult').innerHTML = '';
+      document.getElementById('metersToFeetResult').innerHTML = '';
+      document.getElementById('feetToMetersResult').innerHTML = '';
+    }
+    
+    document.getElementById("btnclearvalues").addEventListener("click", () => {
+            document.getElementById("dlgmsg").innerHTML = "Clear the Values?";
+            dlgConfirmCancel.showModal();
+        });
+    
+        document.getElementById("btnConfirm").addEventListener("click", () => {
+            clearForm();
+            dlgConfirmCancel.close("confirm");
+        });
+
+        document.getElementById("btnCancel").addEventListener("click", () => {
+            dlgConfirmCancel.close("cancel");
+        });
+
+  </script>
+</body>
+</html>

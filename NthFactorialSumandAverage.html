@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <title> FNth Factorial, Sum and Average </title>
+</head>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 100%;
+            height: 100vh;
+            background-image: url(https://cdn.wallpapersafari.com/94/3/Y7V4l0.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            background-color: rgba(240, 240, 240, 0.35);
+            border: 2px solid rgb(69, 63, 152);
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container:hover {
+            transform: scale(1.05); 
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px; 
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #45aaf2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #5FFFDF;
+        }
+
+        .result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 95%; 
+                padding: 15px; 
+            }
+        }
+
+        input[type="button"]:hover {
+            background-color: #79d3d5; 
+            color: #000000; 
+        }
+
+        body {
+            animation: animatedBackground 10s linear infinite;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+        }
+
+        a {
+            text-align: center;
+            display: block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #45aaf2;
+        }
+
+        .Clears {
+             text-align: center;
+        }
+
+        .Clears input[type="button"],
+        .Clears button {
+            margin: 10px 0;
+        }
+
+
+</style>
+<body>
+    <div class="container">
+        <h1> Loop Calculator</h1>
+
+        <div class="Inputs">
+            <label for="UserInput"> Enter Number</label> <br> <br>
+            <input id="UserInput" type="number"> <br> <br> <br> <br>
+        </div>
+
+        <div class="Factorials">
+            <label for="FactorialOutput"> Factorial </label> <br>
+            <input id="FactorialOutput" type="number" readonly> 
+            <input type="button" value="Enter" id="FactorialButton"> <br><br>
+        </div>
+
+        <div class="Sums">
+            <label for="SumOutput"> Sum </label> <br>
+            <input id="SumOutput" type="number" readonly>
+            <input type="button" value="Enter"  id="sumbutton"> <br><br>
+        </div>
+
+        <div class="Averages">
+            <label for="AverageOutput"> Average </label> <br>
+            <input id="AverageOutput" type="number" readonly>
+            <input type="button" value="Enter" id="averagebutton"> <br><br><br><br><br>
+        </div>
+
+        <div class="Clears">
+            <input type="button" value="Display All" id="DisplayButton">           
+            <button id="btnclearvalues">Clear Values</button>
+        </div>
+    </div> 
+    <a href="HomePage.html">Go to Home Page</a>
+
+    <dialog id="dlgConfirmCancel">
+        <form method="dialog">
+            <h4 id="dlgmsg"></h4>
+            <button id="btnConfirm" type="button">Confirm</button>
+            <button id="btnCancel" type="button">Cancel</button>
+        </form>
+    </dialog>
+
+    <script>
+        document.getElementById("DisplayButton").addEventListener("click", function() {
+            factorial();
+            sum();
+            average();
+        });
+
+        document.getElementById("FactorialButton").addEventListener("click", () => {
+            var num;
+            var ans = 1;
+            var i = 1;
+            num = document.getElementById("UserInput").value * 1;
+
+            while (i <= num) {
+                ans *= i;
+                i++;
+            }
+            document.getElementById("FactorialOutput").value = ans;
+        });
+
+        document.getElementById("sumbutton").addEventListener("click", () => {
+            var num;
+            var ans = 0;
+            var i = 1;
+            num = document.getElementById("UserInput").value * 1;
+
+            do {
+                ans += i;
+                i++;
+            } while (i <= num);
+
+            document.getElementById("SumOutput").value = ans;
+        });
+
+        document.getElementById("averagebutton").addEventListener("click", () => {
+            var num, i;
+            var partial = 0;
+            var final = 0;
+
+            num = document.getElementById("UserInput").value * 1;
+
+            for (i = 1; i <= num; i++) {
+                partial += i;
+            }
+
+            final = partial / num;
+
+            document.getElementById("AverageOutput").value = final;
+        });
+
+        document.getElementById("btnclearvalues").addEventListener("click", () => {
+            document.getElementById("dlgmsg").innerHTML = "Clear the Values?";
+            dlgConfirmCancel.showModal();
+        });
+
+        document.getElementById("btnConfirm").addEventListener("click", () => {
+            clearForm();
+            dlgConfirmCancel.close("confirm");
+        });
+
+        document.getElementById("btnCancel").addEventListener("click", () => {
+            dlgConfirmCancel.close("cancel");
+        });
+
+        function factorial() {
+            var num;
+            var ans = 1;
+            var i = 1;
+            num = document.getElementById("UserInput").value * 1;
+
+            while (i <= num) {
+                ans *= i;
+                i++;
+            }
+            document.getElementById("FactorialOutput").value = ans;
+        }
+
+        function sum() {
+            var num;
+            var ans = 0;
+            var i = 1;
+            num = document.getElementById("UserInput").value * 1;
+
+            do {
+                ans += i;
+                i++;
+            } while (i <= num);
+
+            document.getElementById("SumOutput").value = ans;
+        }
+
+        function average() {
+            var num, i;
+            var partial = 0;
+            var final = 0;
+
+            num = document.getElementById("UserInput").value * 1;
+
+            for (i = 1; i <= num; i++) {
+                partial += i;
+            }
+
+            final = partial / num;
+
+            document.getElementById("AverageOutput").value = final;
+        }
+
+        function clearForm() {
+            document.getElementById("UserInput").value = '';
+            document.getElementById("FactorialOutput").value = '';
+            document.getElementById("SumOutput").value = '';
+            document.getElementById("AverageOutput").value = '';
+        }
+    </script>
+</body>
+</html>
